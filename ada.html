@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADA Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #4e9de6;
+        }
+        .details {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ADA Details</h1>
+
+    <div class="details" id="adaDetails">
+        <p><strong>Symbol:</strong> <span id="symbol"></span></p>
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>Current Price:</strong> $<span id="currentPrice"></span></p>
+        <p><strong>Market Cap:</strong> $<span id="marketCap"></span></p>
+        <p><strong>24h Change:</strong> <span id="changePercentage"></span>%</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const adaDetails = document.getElementById('adaDetails');
+            const symbolElement = document.getElementById('symbol');
+            const nameElement = document.getElementById('name');
+            const currentPriceElement = document.getElementById('currentPrice');
+            const marketCapElement = document.getElementById('marketCap');
+            const changePercentageElement = document.getElementById('changePercentage');
+
+            // Fetch ADA details from CoinGecko API
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd&include_market_cap=true&include_24hr_change=true')
+                .then(response => response.json())
+                .then(data => {
+                    const adaData = data.cardano;
+
+                    symbolElement.textContent = 'ADA';
+                    nameElement.textContent = 'Cardano';
+                    currentPriceElement.textContent = adaData.usd.toLocaleString();
+                    marketCapElement.textContent = adaData.usd_market_cap.toLocaleString();
+                    changePercentageElement.textContent = adaData.usd_24h_change.toFixed(2);
+                })
+                .catch(error => {
+                    console.error('Error fetching ADA data:', error);
+                    adaDetails.innerHTML = '<p>Error fetching ADA data. Please try again later.</p>';
+                });
+        });
+    </script>
+</body>
+<div>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADA Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10;
+            padding: 0;
+            display: flex-end;
+            align-items: left;
+            justify-content: left;
+            height: 100vh;
+            background-color: #f0f0f0;
+            background-image: url(image/wal.jpg);
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ADA Graph Details</h1>
+        <div class="chart-container">
+            <canvas id="adaChart"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch ADA price data from CoinGecko API
+            fetch('https://api.coingecko.com/api/v3/coins/cardano/market_chart?vs_currency=usd&days=30&interval=daily')
+                .then(response => response.json())
+                .then(data => {
+                    const prices = data.prices.map(price => price[1]);
+
+                    // Create a line chart using Chart.js
+                    const ctx = document.getElementById('adaChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: Array.from({ length: prices.length }, (_, i) => i + 1),
+                            datasets: [{
+                                label: 'ADA Price (USD)',
+                                data: prices,
+                                borderColor: '#008000',
+                                backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Days',
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Price (USD)',
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+</body>
+</html>
+
+</div>
+</html>

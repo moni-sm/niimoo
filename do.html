@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dogecoin Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #c3a634;
+        }
+        .details {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dogecoin Details</h1>
+
+    <div class="details" id="dogecoinDetails">
+        <p><strong>Symbol:</strong> <span id="symbol"></span></p>
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>Current Price:</strong> $<span id="currentPrice"></span></p>
+        <p><strong>Market Cap:</strong> $<span id="marketCap"></span></p>
+        <p><strong>24h Change:</strong> <span id="changePercentage"></span>%</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dogecoinDetails = document.getElementById('dogecoinDetails');
+            const symbolElement = document.getElementById('symbol');
+            const nameElement = document.getElementById('name');
+            const currentPriceElement = document.getElementById('currentPrice');
+            const marketCapElement = document.getElementById('marketCap');
+            const changePercentageElement = document.getElementById('changePercentage');
+
+            // Fetch Dogecoin details from CoinGecko API
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=dogecoin&vs_currencies=usd&include_market_cap=true&include_24hr_change=true')
+                .then(response => response.json())
+                .then(data => {
+                    const dogecoinData = data.dogecoin;
+
+                    symbolElement.textContent = 'DOGE';
+                    nameElement.textContent = 'Dogecoin';
+                    currentPriceElement.textContent = dogecoinData.usd.toLocaleString();
+                    marketCapElement.textContent = dogecoinData.usd_market_cap.toLocaleString();
+                    changePercentageElement.textContent = dogecoinData.usd_24h_change.toFixed(2);
+                })
+                .catch(error => {
+                    console.error('Error fetching Dogecoin data:', error);
+                    dogecoinDetails.innerHTML = '<p>Error fetching Dogecoin data. Please try again later.</p>';
+                });
+        });
+    </script>
+    <div>
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dogecoin Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10;
+            padding: 0;
+            display: flex-end;
+            align-items: left;
+            justify-content: left;
+            height: 100vh;
+            background-color: #f0f0f0;
+            background-image: url(wal.jpg) ;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dogecoin Graph Details</h1>
+        <div class="chart-container">
+            <canvas id="dogecoinChart"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch Dogecoin price data from CoinGecko API
+            fetch('https://api.coingecko.com/api/v3/coins/dogecoin/market_chart?vs_currency=usd&days=30&interval=daily')
+                .then(response => response.json())
+                .then(data => {
+                    const prices = data.prices.map(price => price[1]);
+
+                    // Create a line chart using Chart.js
+                    const ctx = document.getElementById('dogecoinChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: Array.from({ length: prices.length }, (_, i) => i + 1),
+                            datasets: [{
+                                label: 'Dogecoin Price (USD)',
+                                data: prices,
+                                borderColor: '#ff69b4',
+                                backgroundColor: 'rgba(255, 105, 180, 0.2)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Days',
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Price (USD)',
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+</body>
+</html>
+
+    </div>
+</body>
+</html>
